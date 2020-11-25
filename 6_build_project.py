@@ -125,8 +125,45 @@ while model_traing_completed == False:
     time.sleep(10)
 
 # Create Model
-example_model_input = {"v": [-1.3598071336738,-0.0727811733098497,2.53634673796914,1.37815522427443,-0.338320769942518,0.462387777762292,0.239598554061257,0.0986979012610507,0.363786969611213,0.0907941719789316,-0.551599533260813,-0.617800855762348,-0.991389847235408,-0.311169353699879,1.46817697209427,-0.470400525259478,0.207971241929242,0.0257905801985591,0.403992960255733,0.251412098239705,-0.018306777944153,0.277837575558899,-0.110473910188767,0.0669280749146731,0.128539358273528,-0.189114843888824,0.133558376740387,-0.0210530534538215], 
-                    "time": 0, "amount": 149.62}
+example_model_input = {
+"transactionId": 3243769488171490000,
+"eventTime": 1600076646420,
+"payerId": "PAYER_3",
+"beneficiaryId": "ID4",
+"paymentAmount": 4600,
+"paymentType": "CSH",
+"datetime": "2020-09-14 09:44:06.420",
+"V1": "-0.966271711572087",
+"V2": "-0.185226008082898",
+"V3": "1.79299333957872",
+"V4": "-0.863291275036453",
+"V5": "-0.0103088796030823",
+"V6": "1.24720316752486",
+"V7": "0.23760893977178",
+"V8": "0.377435874652262",
+"V9": "-1.38702406270197",
+"V10": "-0.0549519224713749",
+"V11": "-0.226487263835401",
+"V12": "0.178228225877303",
+"V13": "0.507756869957169",
+"V14": "-0.28792374549456",
+"V15": "-0.631418117709045",
+"V16": "-1.0596472454325",
+"V17": "-0.684092786345479",
+"V18": "1.96577500349538",
+"V19": "-1.2326219700892",
+"V20": "-0.208037781160366",
+"V21": "-0.108300452035545",
+"V22": "0.00527359678253453",
+"V23": "-0.190320518742841",
+"V24": "-1.17557533186321",
+"V25": "0.647376034602038",
+"V26": "-0.221928844458407",
+"V27": "0.0627228487293033",
+"V28": "0.0614576285006353",
+"CLASS": "0",
+"result": ""
+}
 
 create_model_params = {
     "projectId": project_id,
@@ -166,39 +203,3 @@ while is_deployed == False:
     print ("Deploying Model.....")
     time.sleep(10)
     
-## Change the line in the flask/single_view.html file.
-import subprocess
-subprocess.call(["sed", "-i",  's/access_key\s=.*/access_key = "' + access_key + '";/', "/home/cdsw/5_application.py"])
-
-
-# Create Application
-create_application_params = {
-    "name": "Fraud App",
-    "subdomain": run_time_suffix[:],
-    "description": "Fraud web application",
-    "type": "manual",
-    "script": "5_application.py", "environment": {},
-    "kernel": "python3", "cpu": 1, "memory": 2,
-    "nvidia_gpu": 0
-}
-
-new_application_details = cml.create_application(create_application_params)
-application_url = new_application_details["url"]
-application_id = new_application_details["id"]
-
-# print("Application may need a few minutes to finish deploying. Open link below in about a minute ..")
-print("Application created, deploying at ", application_url)
-
-#Wait for the application to deploy.
-is_deployed = False
-while is_deployed == False:
-#Wait for the application to deploy.
-  app = cml.get_application(str(application_id),{})
-  if app["status"] == 'running':
-    print("Application is deployed")
-    break
-  else:
-    print ("Deploying Application.....")
-    time.sleep(10)
-
-HTML("<a href='{}'>Open Application UI</a>".format(application_url))    
