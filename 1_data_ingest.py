@@ -108,6 +108,8 @@ spark.sql("show databases").show()
 
 spark.sql("show tables in default").show()
 
+spark.sql("drop table if exists default.cc_data")
+
 ### Create the Hive table
 # This is here to create the table in Hive used be the other parts of the project, if it
 # does not already exist.
